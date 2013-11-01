@@ -138,7 +138,7 @@
 				   </property>
 				</bean> -->
 				<bean class="org.jasig.cas.adaptors.jdbc.QueryDatabaseAuthenticationHandler">
-					<property name="sql" value="select password from users_table t where t.username = ?" />
+					<property name="sql" value="select password from users t where t.username = ?" />
 					<property name="dataSource" ref="dataSource" />
 					<property name="passwordEncoder" ref="mypasswordEncoder"/>
 				</bean>
@@ -186,9 +186,10 @@
 		</property>
 	</bean> -->
 	
+	<!-- 单条数据的用户信息 -->
 	<bean id="attributeRepository" class="org.jasig.services.persondir.support.jdbc.SingleRowJdbcPersonAttributeDao">
 		<constructor-arg index="0" ref="dataSource" />
-		<constructor-arg index="1" value="select * from users_table where {0}" />
+		<constructor-arg index="1" value="select * from users where {0}" />
 		<property name="queryAttributeMapping">
 			<map>
 				<!-- key需要些username，value对应数据库字段名字  -->
@@ -197,9 +198,11 @@
 		</property>
 		<property name="resultAttributeMapping">
 			<map>
+				<entry key="id" value="id" />
 				<entry key="username" value="username" />
 				<entry key="mobileid" value="mobileid" />
 				<entry key="address" value="address" />
+				<entry key="rolenames" value="rolenames" />
 			</map>
 		</property>
 	</bean>
@@ -218,12 +221,13 @@
 					<property name="description" value="Allows HTTP(S) and IMAP(S) protocols" />
 					<property name="serviceId" value="^(https?|imaps?)://.*" />
 					<property name="evaluationOrder" value="10000001" />
-					<property name="ignoreAttributes" value="true" />
 					<property name="allowedAttributes">
 						<list>
+							<value>id</value>
 							<value>username</value>
 							<value>mobileid</value>
 							<value>address</value>
+							<value>rolenames</value>
 						</list>
 					</property>
                </bean>
