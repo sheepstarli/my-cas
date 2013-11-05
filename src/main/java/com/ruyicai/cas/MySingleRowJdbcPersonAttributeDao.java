@@ -35,7 +35,7 @@ public class MySingleRowJdbcPersonAttributeDao extends AbstractJdbcPersonAttribu
             
             Set<String> keySet = queryResult.keySet();
             for(String key : keySet) {
-            	System.out.println(queryResult.get(key));
+            	System.out.println(key + ":" + queryResult.get(key));
             }
             final IPersonAttributes person;
             if (queryUserName != null) {
